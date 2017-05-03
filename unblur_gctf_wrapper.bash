@@ -2,13 +2,13 @@
 
 ###########Parameters###########
 
-APIX=1.07              #Pixel size (A)
-FRAMES=35              #No. frames in each stack
-DOSE=1.5                #Dose per frame (e- per A^2)
+APIX=1.255              #Pixel size (A)
+FRAMES=72              #No. frames in each stack
+DOSE=0.75                #Dose per frame (e- per A^2)
 AKV=300.0                 #Acc. voltage (kV)
 INITIAL_DOSE=0.0        #Pre-exposure dose (e- per A^2)
 GAIN_REF=gain_ref.mrc   #Gain reference (mrc format)
-CS=2.7
+CS=2.26
 GPU=1
 
 ###### Nothing below here should need alteration #######
@@ -38,7 +38,12 @@ i=${i%.tiff}.mrc
 t=${i}
 fi
 
-clip mult -n 16 ${i} $GAIN_REF gc_${i}.mrc #Gain correction
+if [ ${i: -3} == "bz2" ]; then
+bzip2 -dk ${i}
+i=${i%.bz2}
+fi
+
+clip mult -m 2 ${i} $GAIN_REF gc_${i}.mrc #Gain correction
 
 wait
 
