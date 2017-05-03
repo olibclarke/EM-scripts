@@ -17,4 +17,4 @@ numbers indicated, and per-mic Pmax, NSS and defocus printed - useful
 for post-refinement screening of mics, or as a sanity check to assess
 junkiness of 2D/3D classes.
 
-'unblur_gctf_wrapper' runs unblur and Gctf, and creates contrast-adjusted jpg images with defocus etc written for diagnosis/screening. Requires ImageMagick. You may need to edit the names of the unblur, summovie and gctf executables. Run on multiple cores using GNU parallel, e.g.: `find ./ -maxdepth 1 -name "mic*mrc" -print | parallel -j 12 './unblur.com {/}' >& log &`
+`unblur_gctf_wrapper` runs unblur and Gctf, and creates contrast-adjusted jpg images with defocus etc written for diagnosis/screening. Requires ImageMagick. You may need to edit the names of the unblur, summovie and gctf executables. Run on multiple cores using GNU parallel, e.g.: `find ./ -maxdepth 1 -name "mic*mrc" -print | parallel -j 12 './unblur.com {/}' >& log &`
