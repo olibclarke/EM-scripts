@@ -22,7 +22,13 @@ for i in "$@"
 do
 
 basename=`echo ${i} | cut -d'.' -f1`
-if [[ -f "gc_${basename}_sum.mrc" ]] && [[ -f "gc_${basename}_sum_DW.mrc" ]] && [[  -f "gc_${basename}_sum_pick.mrc" ]] && [[ -f "gc_${basename}_sum_pick.jpg" ]]; then
+
+if [[ -f "gc_${basename}_sum_pick.jpg" ]]; then
+jpg_width=`identify -format '%w %h' gc_${basename}_sum_pick.jpg | awk '{print $1}'`
+jpg_height=`identify -format '%w %h' gc_${basename}_sum_pick.jpg | awk '{print $2}'`
+fi
+
+if [[ -f "gc_${basename}_sum.mrc" ]] && [[ -f "gc_${basename}_sum_DW.mrc" ]] && [[  -f "gc_${basename}_sum_pick.mrc" ]] && [[ -f "gc_${basename}_sum_pick.jpg" ]] && [ $jpg_width == 2014 ] && [ $jpg_height == 1024 ]; then
 echo "Output files already exist!"
 else
 #should probably add an if here to deal with tifs
