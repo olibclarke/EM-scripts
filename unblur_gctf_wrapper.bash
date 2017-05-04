@@ -4,7 +4,7 @@
 
 APIX=1.255              #Pixel size (A)
 FRAMES=72              #No. frames in each stack
-DOSE=0.75                #Dose per frame (e- per A^2)
+DOSE=1.4                #Dose per frame (e- per A^2)
 AKV=300.0                 #Acc. voltage (kV)
 INITIAL_DOSE=0.0        #Pre-exposure dose (e- per A^2)
 GAIN_REF=gain_ref.mrc   #Gain reference (mrc format)
@@ -21,7 +21,8 @@ touch gctf_results.star
 for i in "$@"
 do
 
-if [[ -f "gc_${i%.mrc}_sum.mrc" ]] && [[ -f "gc_${i%.mrc}_sum_DW.mrc" ]] && [[  -f "gc_${i%.mrc}_sum_pick.mrc" ]] && [[ -f "gc_${i%.mrc}_sum_pick.jpg" ]]; then
+basename=`echo ${i} | cut -d'.' -f1`
+if [[ -f "gc_${basename}_sum.mrc" ]] && [[ -f "gc_${basename}_sum_DW.mrc" ]] && [[  -f "gc_${basename}_sum_pick.mrc" ]] && [[ -f "gc_${basename}_sum_pick.jpg" ]]; then
 echo "Output files already exist!"
 else
 #should probably add an if here to deal with tifs
@@ -74,7 +75,7 @@ gc_${i%.mrc}_sum_DW.mrc
 gc_${i%.mrc}_shifts.txt
 gc_${i%.mrc}_sum_DW_frc.txt
 1
-$FRAMES
+43
 $APIX
 YES
 $DOSE
