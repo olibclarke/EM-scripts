@@ -22,6 +22,8 @@ DSTEP=5.0 #Detector pixel size (um)
 #To  run in parallel (on 12 cores):
 #find ./ -maxdepth 1 -name "mic*mrc" -print | parallel -j 12 './unblur.com {/}' >& log &
 #
+#After completion, to compile CTF params into single star:
+#cat starfile_header.txt > results.star; cat *ctf.star | awk 'NF==11{print}{}' >> results.star
 
 DOSE=`echo "$TOTAL_DOSE/$FRAMES" | bc -l`
 DSTEP_A=`echo "$DSTEP*10000" | bc -l`
