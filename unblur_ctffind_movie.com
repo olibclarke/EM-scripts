@@ -10,7 +10,6 @@ INITIAL_DOSE=0.0        #Pre-exposure dose (e- per A^2)
 GAIN_REF=average_gain_ref.mrc   #Gain reference (mrc format)
 CS=2.26
 AC=0.07
-GPU=1
 AVE_FRAMES=3            #Frames to average for ctf determination. 4e-/A^2 worth a good starting point.
 KEEP_FRAMES=0    #switch to 1 if you want to keep the aligned movie (e.g. for later extraction of per particle movies)
 UNBLUR_COMMAND="unblur_openmp_7_17_15.exe"
@@ -104,7 +103,7 @@ wait
 
 #ctffind_params
 
-RES_LOW=30.0
+RES_LOW=20.0
 RES_HIGH=3.4
 SPECTRUM_SIZE=1024
 MIN_DEF=5000.0
