@@ -89,18 +89,6 @@ clip norm -m 2 -h 16 -s ${i} $GAIN_REF gc_${i}.mrc
 
 wait
 
-if [ MAG_CORRECT_FLAG == 1 ]; then
-$MAG_CORRECT_COMMAND << eof
-gc_${i}.mrc
-gc_${i}.mrc
-$MAG_ANGLE
-$MAG_MAJ_SCALE
-$MAG_MIN_SCALE
-NO
-NO
-eof
-fi
-
 #Make non-dose weighted aligned movie and sum
 #(For CTF correction)
 $UNBLUR_COMMAND << eof
@@ -116,6 +104,28 @@ NO
 eof
 
 wait
+
+if [ MAG_CORRECT_FLAG == 1 ]; then
+$MAG_CORRECT_COMMAND << eof
+gc_${i}.mrc
+gc_${i}.mrc
+$MAG_ANGLE
+$MAG_MAJ_SCALE
+$MAG_MIN_SCALE
+NO
+NO
+eof
+
+$MAG_CORRECT_COMMAND << eof
+gc_${i}_frames.mrc
+gc_${i}_frames.mrc
+$MAG_ANGLE
+$MAG_MAJ_SCALE
+$MAG_MIN_SCALE
+NO
+NO
+eof
+fi
 
 
 X_START=`tail -n2 gc_${i%.mrc}_shifts.txt | head -n1 | awk '{print $1}'`
@@ -135,7 +145,7 @@ echo "DRIFT=${DRIFT}"
 #ctffind_params
 
 RES_LOW=20.0
-RES_HIGH=3.4
+RES_HIGH=6
 SPECTRUM_SIZE=1024
 MIN_DEF=5000.0
 MAX_DEF=50000.0
