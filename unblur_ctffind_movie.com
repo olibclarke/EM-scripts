@@ -3,18 +3,23 @@
 ###########Parameters###########
 
 APIX=1.06              #Pixel size (A)
-FRAMES=50              #No. frames in each stack
-TOTAL_DOSE=70                #Total accumulated dose (e- per A^2)
+FRAMES=35              #No. frames in each stack
+TOTAL_DOSE=53                #Total accumulated dose (e- per A^2)
 AKV=300.0                 #Acc. voltage (kV)
 INITIAL_DOSE=0.0        #Pre-exposure dose (e- per A^2)
 GAIN_REF=gain_ref.mrc   #Gain reference (mrc format)
 CS=2.7
 AC=0.07
 AVE_FRAMES=3            #Frames to average for ctf determination. 4e-/A^2 worth a good starting point.
-KEEP_FRAMES=0    #switch to 1 if you want to keep the aligned movie (e.g. for later extraction of per particle movies)
+KEEP_FRAMES=1    #switch to 1 if you want to keep the aligned movie (e.g. for later extraction of per particle movies)
 UNBLUR_COMMAND="unblur_openmp_7_17_15.exe"
 CTFFIND_COMMAND="ctffind"
 SUMMOVIE_COMMAND="sum_movie_openmp_7_17_15.exe"
+MAG_CORRECT_FLAG=1
+MAG_CORRECT_COMMAND="mag_distortion_correct_openmp_8_18_15.exe"
+MAG_ANGLE=36.0
+MAG_MAJ_SCALE=1.004
+MAG_MIN_SCALE=0.996
 DSTEP=5.0 #Detector pixel size (um)
 
 ###### Nothing below here should need alteration #######
@@ -83,6 +88,18 @@ fi
 clip norm -m 2 -h 16 -s ${i} $GAIN_REF gc_${i}.mrc 
 
 wait
+
+if [ MAG_CORRECT_FLAG == 1 ]; then
+$MAG_CORRECT_COMMAND << eof
+gc_${i}.mrc
+gc_${i}.mrc
+$MAG_ANGLE
+$MAG_MAJ_SCALE
+$MAG_MIN_SCALE
+NO
+NO
+eof
+fi
 
 #Make non-dose weighted aligned movie and sum
 #(For CTF correction)
