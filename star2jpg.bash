@@ -27,10 +27,7 @@ while read line; do
   convert tmp.tif -morphology Convolve Gaussian:0x2 tmp.tif
   convert -contrast-stretch -4%x0.5% -auto-gamma -brightness-contrast 10x20 -resize 15% -rotate 180 -flop tmp.tif ${particle_count}p_${mic_name%.mrc}.jpg
   cp ${particle_count}p_${mic_name%.mrc}.jpg tmp_unlabeled.jpg
-<<<<<<< HEAD
   touch tmp_cmd_file
-=======
->>>>>>> 266cdb0cb3a7f432c8544b57a11eb62ec5338d29
   while read line2; do
    x_coord=$(cut -d ' ' -f${X_FIELD} <<< $line2)
    y_coord=$(cut -d ' ' -f${Y_FIELD} <<< $line2)
@@ -41,7 +38,6 @@ while read line; do
    part_no=$(cut -d '@' -f1 <<< $part_name)
    part_no=$((10#$part_no))
    edge=`echo "$x_coord+($RADIUS*0.15)" | bc -l`
-<<<<<<< HEAD
    echo "-draw \"circle ${x_coord},${y_coord} ${edge},${y_coord}\"" >> tmp_cmd_file
   done < single_mic.star
   defocus=`echo "$defocus*0.0001" | bc -l`
@@ -52,14 +48,4 @@ while read line; do
   mv ${particle_count}p_${mic_name%.mrc}.jpg ./jpg_out
   rm tmp_unlabeled.jpg
   rm tmp_cmd_file
-=======
-   convert -stroke Firebrick -strokewidth 1 -fill none -draw "circle ${x_coord},${y_coord} ${edge},${y_coord}" -fill Firebrick ${particle_count}p_${mic_name%.mrc}.jpg ${particle_count}p_${mic_name%.mrc}.jpg
-  done < single_mic.star
-  defocus=`echo "$defocus*0.0001" | bc -l`
-  defocus=$( printf "%1.1f" $defocus )
-  convert -gravity northwest -fill DarkBlue -pointsize 20 -annotate 0x0+0+15 "Defocus: ${defocus}µm, ${particle_count} particles" ${particle_count}p_${mic_name%.mrc}.jpg ${particle_count}p_${mic_name%.mrc}.jpg
-  convert  ${particle_count}p_${mic_name%.mrc}.jpg tmp_unlabeled.jpg +append ${particle_count}p_${mic_name%.mrc}.jpg
-  mv ${particle_count}p_${mic_name%.mrc}.jpg ./jpg_out
-  rm tmp_unlabeled.jpg
->>>>>>> 266cdb0cb3a7f432c8544b57a11eb62ec5338d29
 done < tmp_mic_list
